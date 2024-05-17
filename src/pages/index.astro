@@ -1,0 +1,28 @@
+---
+export const prerender = false;
+import { getISBN } from "../js/getISBN";
+const link = Astro.url.searchParams.get("link")! || "";
+const ISBN = link ? await getISBN(link) : "No link provided";
+---
+
+{ISBN && ISBN}
+{
+    !ISBN && (
+        <html lang="en">
+            <head>
+                <meta charset="utf-8" />
+                <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+                <meta name="viewport" content="width=device-width" />
+                <meta name="generator" content={Astro.generator} />
+                <title>amzn2isbn</title>
+            </head>
+            <body>
+                {ISBN}
+                <form action="/" method="GET">
+                    <input type="text" name="link" />
+                    <button type="submit">Submit an amazon url</button>
+                </form>
+            </body>
+        </html>
+    )
+}
